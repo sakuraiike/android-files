@@ -17,6 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PopupWindowController{
+    
+    //this is a click event method 
+    public void justSampleInActivity(){
+        
+                new PopupWindowController(this).ShowPopWindow(view, new ArrayList<String>(sublevelsMap.keySet()), new WXLoginActivity.VSMethod() {
+                    @Override
+                    public void Method(String s) { // param: button text 
+                        //如果与当前页面状态相同则直接返回
+                        if(currentSubLevelId.equals(sublevelsMap.get(s)))return;
+                        //否则 依据按钮文本做对应的更改
+                        
+                        
+                    }
+                });   
+        
+    }
+    
     List<String>list;
 
     private Context context;
