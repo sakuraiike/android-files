@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/jzyhywxz/p/7039503.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android PopupWindow使用方法小结 - 式 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Android PopupWindow使用方法小结._files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Android PopupWindow使用方法小结._files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Android PopupWindow使用方法小结._files/bundle-CodingLife-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/jzyhywxz/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/jzyhywxz/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/jzyhywxz/wlwmanifest.xml">
+<script async="" src="./Android PopupWindow使用方法小结._files/analytics.js"></script><script type="text/javascript" src="./Android PopupWindow使用方法小结._files/encoder.js"></script><script src="./Android PopupWindow使用方法小结._files/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'jzyhywxz', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./Android PopupWindow使用方法小结._files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<!--end: blogTitle 博客的标题和副标题 -->
+	<!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/jzyhywxz/p/7039503.html">Android PopupWindow使用方法小结</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>前几天要用到PopupWindow，一时竟想不起来怎么用，赶紧上网查了查，自己写了个demo，并在此记录一下PopupWindow的用法。</p>
+<h2>使用场景</h2>
+<p>PopupWindow，顾名思义，就是弹窗，在很多场景下都可以见到它。例如ActionBar/Toolbar的选项弹窗，一组选项的容器，或者列表等集合的窗口等等。</p>
+<h2>基本用法</h2>
+<p>使用PopupWindow很简单，可以总结为三个步骤：</p>
+<ol>
+<li>创建PopupWindow对象实例；</li>
+<li>设置背景、注册事件监听器和添加动画；</li>
+<li>显示PopupWindow。</li>
+</ol>
+<p>其中，第二步是可选的（不过基本上都要进行第二步的设置）。下面是一个简单的例子：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span>     <span style="color: #008000">//</span><span style="color: #008000"> 用于PopupWindow的View</span>
+<span style="color: #008080"> 2</span>     View contentView=LayoutInflater.from(context).inflate(layoutRes, <span style="color: #0000ff">null</span>, <span style="color: #0000ff">false</span><span style="color: #000000">);
+</span><span style="color: #008080"> 3</span>     <span style="color: #008000">//</span><span style="color: #008000"> 创建PopupWindow对象，其中：
+</span><span style="color: #008080"> 4</span>     <span style="color: #008000">//</span><span style="color: #008000"> 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
+</span><span style="color: #008080"> 5</span>     <span style="color: #008000">//</span><span style="color: #008000"> 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点</span>
+<span style="color: #008080"> 6</span>     PopupWindow window=<span style="color: #0000ff">new</span> PopupWindow(contentView, 100, 100, <span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080"> 7</span>     <span style="color: #008000">//</span><span style="color: #008000"> 设置PopupWindow的背景</span>
+<span style="color: #008080"> 8</span>     window.setBackgroundDrawable(<span style="color: #0000ff">new</span><span style="color: #000000"> ColorDrawable(Color.TRANSPARENT));
+</span><span style="color: #008080"> 9</span>     <span style="color: #008000">//</span><span style="color: #008000"> 设置PopupWindow是否能响应外部点击事件</span>
+<span style="color: #008080">10</span>     window.setOutsideTouchable(<span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080">11</span>     <span style="color: #008000">//</span><span style="color: #008000"> 设置PopupWindow是否能响应点击事件</span>
+<span style="color: #008080">12</span>     window.setTouchable(<span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080">13</span>     <span style="color: #008000">//</span><span style="color: #008000"> 显示PopupWindow，其中：
+</span><span style="color: #008080">14</span>     <span style="color: #008000">//</span><span style="color: #008000"> 第一个参数是PopupWindow的锚点，第二和第三个参数分别是PopupWindow相对锚点的x、y偏移</span>
+<span style="color: #008080">15</span> <span style="color: #000000">    window.showAsDropDown(anchor, xoff, yoff);
+</span><span style="color: #008080">16</span>     <span style="color: #008000">//</span><span style="color: #008000"> 或者也可以调用此方法显示PopupWindow，其中：
+</span><span style="color: #008080">17</span>     <span style="color: #008000">//</span><span style="color: #008000"> 第一个参数是PopupWindow的父View，第二个参数是PopupWindow相对父View的位置，
+</span><span style="color: #008080">18</span>     <span style="color: #008000">//</span><span style="color: #008000"> 第三和第四个参数分别是PopupWindow相对父View的x、y偏移
+</span><span style="color: #008080">19</span>     <span style="color: #008000">//</span><span style="color: #008000"> window.showAtLocation(parent, gravity, x, y);</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>每个方法的作用都写在注解里了，相信大家都能看懂。不过这里要注意这两行：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">1</span>     window.setBackgroundDrawable(<span style="color: #0000ff">new</span><span style="color: #000000"> ColorDrawable(Color.TRANSPARENT));
+</span><span style="color: #008080">2</span>     window.setOutsideTouchable(<span style="color: #0000ff">true</span>);</pre>
+</div>
+<p>只有同时设置PopupWindow的背景和可以响应外部点击事件，它才能“真正”响应外部点击事件。也就是说，当你点击PopupWindow的外部或者按下“Back”键时，PopupWindow才会消失。</p>
+<h2>使用showAsDropDown方法显示PopupWindow</h2>
+<p> 通常情况下，调用showAsDropDown方法后PopupWindow将会在锚点的左下方显示（drop down）。但是，有时想让PopupWindow在锚点的上方显示，或者在锚点的中间位置显示，此时就需要用到showAsDropDown方法的xoff和yoff参数了。<br>
+<br>
+这里我们的目的不仅包括上面提到的两种情况（锚点上方或锚点中部），而是囊括了水平和垂直方向各5种显示方式：</p>
+<ul>
+<li>水平方向：
+<ul>
+<li>ALIGN_LEFT：在锚点内部的左边；</li>
+<li>ALIGN_RIGHT：在锚点内部的右边；</li>
+<li>CENTER_HORI：在锚点水平中部；</li>
+<li>TO_RIGHT：在锚点外部的右边；</li>
+<li>TO_LEFT：在锚点外部的左边。</li>
+
+
+
+
+</ul>
+
+
+
+
+</li>
+<li>垂直方向：
+<ul>
+<li>ALIGN_ABOVE：在锚点内部的上方；</li>
+<li>ALIGN_BOTTOM：在锚点内部的下方；</li>
+<li>CENTER_VERT：在锚点垂直中部；</li>
+<li>TO_BOTTOM：在锚点外部的下方；</li>
+<li>TO_ABOVE：在锚点外部的上方。</li>
+
+
+
+
+</ul>
+
+
+
+
+</li>
+
+
+
+
+</ul>
+<p>
+下面来看张图：</p>
+<p><img src="./Android PopupWindow使用方法小结._files/830999-20170617100745681-1495426999.png" alt=""></p>
+<p><img src="./Android PopupWindow使用方法小结._files/830999-20170617100758259-937613284.png" alt=""></p>
+<p>
+<br>
+我们先定义一个类对PopupWindow进行简单的封装：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span> <span style="color: #0000ff">public</span> <span style="color: #0000ff">abstract</span> <span style="color: #0000ff">class</span><span style="color: #000000"> CommonPopupWindow {
+</span><span style="color: #008080"> 2</span>     <span style="color: #0000ff">protected</span><span style="color: #000000"> Context context;
+</span><span style="color: #008080"> 3</span>     <span style="color: #0000ff">protected</span><span style="color: #000000"> View contentView;
+</span><span style="color: #008080"> 4</span>     <span style="color: #0000ff">protected</span><span style="color: #000000"> PopupWindow mInstance;
+</span><span style="color: #008080"> 5</span> 
+<span style="color: #008080"> 6</span>     <span style="color: #0000ff">public</span> CommonPopupWindow(Context c, <span style="color: #0000ff">int</span> layoutRes, <span style="color: #0000ff">int</span> w, <span style="color: #0000ff">int</span><span style="color: #000000"> h) {
+</span><span style="color: #008080"> 7</span>         context=<span style="color: #000000">c;
+</span><span style="color: #008080"> 8</span>         contentView=LayoutInflater.from(c).inflate(layoutRes, <span style="color: #0000ff">null</span>, <span style="color: #0000ff">false</span><span style="color: #000000">);
+</span><span style="color: #008080"> 9</span> <span style="color: #000000">        initView();
+</span><span style="color: #008080">10</span> <span style="color: #000000">        initEvent();
+</span><span style="color: #008080">11</span>         mInstance=<span style="color: #0000ff">new</span> PopupWindow(contentView, w, h, <span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080">12</span> <span style="color: #000000">        initWindow();
+</span><span style="color: #008080">13</span> <span style="color: #000000">    }
+</span><span style="color: #008080">14</span> 
+<span style="color: #008080">15</span>     <span style="color: #0000ff">public</span> View getContentView() { <span style="color: #0000ff">return</span><span style="color: #000000"> contentView; }
+</span><span style="color: #008080">16</span>     <span style="color: #0000ff">public</span> PopupWindow getPopupWindow() { <span style="color: #0000ff">return</span><span style="color: #000000"> mInstance; }
+</span><span style="color: #008080">17</span> 
+<span style="color: #008080">18</span>     <span style="color: #0000ff">protected</span> <span style="color: #0000ff">abstract</span> <span style="color: #0000ff">void</span><span style="color: #000000"> initView();
+</span><span style="color: #008080">19</span>     <span style="color: #0000ff">protected</span> <span style="color: #0000ff">abstract</span> <span style="color: #0000ff">void</span><span style="color: #000000"> initEvent();
+</span><span style="color: #008080">20</span> 
+<span style="color: #008080">21</span>     <span style="color: #0000ff">protected</span> <span style="color: #0000ff">void</span><span style="color: #000000"> initWindow() {
+</span><span style="color: #008080">22</span>         mInstance.setBackgroundDrawable(<span style="color: #0000ff">new</span><span style="color: #000000"> ColorDrawable(Color.TRANSPARENT));
+</span><span style="color: #008080">23</span>         mInstance.setOutsideTouchable(<span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080">24</span>         mInstance.setTouchable(<span style="color: #0000ff">true</span><span style="color: #000000">);
+</span><span style="color: #008080">25</span> <span style="color: #000000">    }
+</span><span style="color: #008080">26</span> 
+<span style="color: #008080">27</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> showBashOfAnchor(View anchor, LayoutGravity layoutGravity, <span style="color: #0000ff">int</span> xmerge, <span style="color: #0000ff">int</span><span style="color: #000000"> ymerge) {
+</span><span style="color: #008080">28</span>         <span style="color: #0000ff">int</span>[] offset=<span style="color: #000000">layoutGravity.getOffset(anchor, mInstance);
+</span><span style="color: #008080">29</span>         mInstance.showAsDropDown(anchor, offset[0]+xmerge, offset[1]+<span style="color: #000000">ymerge);
+</span><span style="color: #008080">30</span> <span style="color: #000000">    }
+</span><span style="color: #008080">31</span> 
+<span style="color: #008080">32</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> showAsDropDown(View anchor, <span style="color: #0000ff">int</span> xoff, <span style="color: #0000ff">int</span><span style="color: #000000"> yoff) {
+</span><span style="color: #008080">33</span> <span style="color: #000000">        mInstance.showAsDropDown(anchor, xoff, yoff);
+</span><span style="color: #008080">34</span> <span style="color: #000000">    }
+</span><span style="color: #008080">35</span> 
+<span style="color: #008080">36</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> showAtLocation(View parent, <span style="color: #0000ff">int</span> gravity, <span style="color: #0000ff">int</span> x, <span style="color: #0000ff">int</span><span style="color: #000000"> y) {
+</span><span style="color: #008080">37</span> <span style="color: #000000">        mInstance.showAtLocation(parent, gravity, x, y);
+</span><span style="color: #008080">38</span> <span style="color: #000000">    }
+</span><span style="color: #008080">39</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>这里我们要实现的就是“showBashOfAnchor”方法，其中有一个“LayoutGravity”类型的参数，这就是控制PopupWindow相对锚点位置的对象。下面来定义“LayoutGravity”：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span> <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">class</span><span style="color: #000000"> LayoutGravity {
+</span><span style="color: #008080"> 2</span>     <span style="color: #0000ff">private</span> <span style="color: #0000ff">int</span><span style="color: #000000"> layoutGravity;
+</span><span style="color: #008080"> 3</span>     <span style="color: #008000">//</span><span style="color: #008000"> waring, don't change the order of these constants!</span>
+<span style="color: #008080"> 4</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> ALIGN_LEFT=0x1<span style="color: #000000">;
+</span><span style="color: #008080"> 5</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> ALIGN_ABOVE=0x2<span style="color: #000000">;
+</span><span style="color: #008080"> 6</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> ALIGN_RIGHT=0x4<span style="color: #000000">;
+</span><span style="color: #008080"> 7</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> ALIGN_BOTTOM=0x8<span style="color: #000000">;
+</span><span style="color: #008080"> 8</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> TO_LEFT=0x10<span style="color: #000000">;
+</span><span style="color: #008080"> 9</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> TO_ABOVE=0x20<span style="color: #000000">;
+</span><span style="color: #008080">10</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> TO_RIGHT=0x40<span style="color: #000000">;
+</span><span style="color: #008080">11</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> TO_BOTTOM=0x80<span style="color: #000000">;
+</span><span style="color: #008080">12</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> CENTER_HORI=0x100<span style="color: #000000">;
+</span><span style="color: #008080">13</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">static</span> <span style="color: #0000ff">final</span> <span style="color: #0000ff">int</span> CENTER_VERT=0x200<span style="color: #000000">;
+</span><span style="color: #008080">14</span> 
+<span style="color: #008080">15</span>     <span style="color: #0000ff">public</span> LayoutGravity(<span style="color: #0000ff">int</span><span style="color: #000000"> gravity) {
+</span><span style="color: #008080">16</span>         layoutGravity=<span style="color: #000000">gravity;
+</span><span style="color: #008080">17</span> <span style="color: #000000">    }
+</span><span style="color: #008080">18</span> 
+<span style="color: #008080">19</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">int</span> getLayoutGravity() { <span style="color: #0000ff">return</span><span style="color: #000000"> layoutGravity; }
+</span><span style="color: #008080">20</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> setLayoutGravity(<span style="color: #0000ff">int</span> gravity) { layoutGravity=<span style="color: #000000">gravity; }
+</span><span style="color: #008080">21</span> 
+<span style="color: #008080">22</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> setHoriGravity(<span style="color: #0000ff">int</span><span style="color: #000000"> gravity) {
+</span><span style="color: #008080">23</span>         layoutGravity&amp;=(0x2+0x8+0x20+0x80+0x200<span style="color: #000000">);
+</span><span style="color: #008080">24</span>         layoutGravity|=<span style="color: #000000">gravity;
+</span><span style="color: #008080">25</span> <span style="color: #000000">    }
+</span><span style="color: #008080">26</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span> setVertGravity(<span style="color: #0000ff">int</span><span style="color: #000000"> gravity) {
+</span><span style="color: #008080">27</span>         layoutGravity&amp;=(0x1+0x4+0x10+0x40+0x100<span style="color: #000000">);
+</span><span style="color: #008080">28</span>         layoutGravity|=<span style="color: #000000">gravity;
+</span><span style="color: #008080">29</span> <span style="color: #000000">    }
+</span><span style="color: #008080">30</span> 
+<span style="color: #008080">31</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">boolean</span> isParamFit(<span style="color: #0000ff">int</span><span style="color: #000000"> param) {
+</span><span style="color: #008080">32</span>         <span style="color: #0000ff">return</span> (layoutGravity &amp; param) &gt; 0<span style="color: #000000">;
+</span><span style="color: #008080">33</span> <span style="color: #000000">    }
+</span><span style="color: #008080">34</span> 
+<span style="color: #008080">35</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">int</span><span style="color: #000000"> getHoriParam() {
+</span><span style="color: #008080">36</span>         <span style="color: #0000ff">for</span>(<span style="color: #0000ff">int</span> i=0x1; i&lt;=0x100; i=i&lt;&lt;2<span style="color: #000000">)
+</span><span style="color: #008080">37</span>             <span style="color: #0000ff">if</span><span style="color: #000000">(isParamFit(i))
+</span><span style="color: #008080">38</span>                 <span style="color: #0000ff">return</span><span style="color: #000000"> i;
+</span><span style="color: #008080">39</span>         <span style="color: #0000ff">return</span><span style="color: #000000"> ALIGN_LEFT;
+</span><span style="color: #008080">40</span> <span style="color: #000000">    }
+</span><span style="color: #008080">41</span> 
+<span style="color: #008080">42</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">int</span><span style="color: #000000"> getVertParam() {
+</span><span style="color: #008080">43</span>         <span style="color: #0000ff">for</span>(<span style="color: #0000ff">int</span> i=0x2; i&lt;=0x200; i=i&lt;&lt;2<span style="color: #000000">)
+</span><span style="color: #008080">44</span>             <span style="color: #0000ff">if</span><span style="color: #000000">(isParamFit(i))
+</span><span style="color: #008080">45</span>                 <span style="color: #0000ff">return</span><span style="color: #000000"> i;
+</span><span style="color: #008080">46</span>         <span style="color: #0000ff">return</span><span style="color: #000000"> TO_BOTTOM;
+</span><span style="color: #008080">47</span> <span style="color: #000000">    }
+</span><span style="color: #008080">48</span> 
+<span style="color: #008080">49</span>     <span style="color: #0000ff">public</span> <span style="color: #0000ff">int</span><span style="color: #000000">[] getOffset(View anchor, PopupWindow window) {
+</span><span style="color: #008080">50</span>         <span style="color: #0000ff">int</span> anchWidth=<span style="color: #000000">anchor.getWidth();
+</span><span style="color: #008080">51</span>         <span style="color: #0000ff">int</span> anchHeight=<span style="color: #000000">anchor.getHeight();
+</span><span style="color: #008080">52</span> 
+<span style="color: #008080">53</span>         <span style="color: #0000ff">int</span> winWidth=<span style="color: #000000">window.getWidth();
+</span><span style="color: #008080">54</span>         <span style="color: #0000ff">int</span> winHeight=<span style="color: #000000">window.getHeight();
+</span><span style="color: #008080">55</span>         View view=<span style="color: #000000">window.getContentView();
+</span><span style="color: #008080">56</span>         <span style="color: #0000ff">if</span>(winWidth&lt;=0<span style="color: #000000">)
+</span><span style="color: #008080">57</span>             winWidth=<span style="color: #000000">view.getWidth();
+</span><span style="color: #008080">58</span>         <span style="color: #0000ff">if</span>(winHeight&lt;=0<span style="color: #000000">)
+</span><span style="color: #008080">59</span>             winHeight=<span style="color: #000000">view.getHeight();
+</span><span style="color: #008080">60</span> 
+<span style="color: #008080">61</span>         <span style="color: #0000ff">int</span> xoff=0<span style="color: #000000">;
+</span><span style="color: #008080">62</span>         <span style="color: #0000ff">int</span> yoff=0<span style="color: #000000">;
+</span><span style="color: #008080">63</span> 
+<span style="color: #008080">64</span>         <span style="color: #0000ff">switch</span><span style="color: #000000"> (getHoriParam()) {
+</span><span style="color: #008080">65</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> ALIGN_LEFT:
+</span><span style="color: #008080">66</span>                 xoff=0; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">67</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> ALIGN_RIGHT:
+</span><span style="color: #008080">68</span>                 xoff=anchWidth-winWidth; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">69</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> TO_LEFT:
+</span><span style="color: #008080">70</span>                 xoff=-winWidth; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">71</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> TO_RIGHT:
+</span><span style="color: #008080">72</span>                 xoff=anchWidth; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">73</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> CENTER_HORI:
+</span><span style="color: #008080">74</span>                 xoff=(anchWidth-winWidth)/2; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">75</span>             <span style="color: #0000ff">default</span>:<span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">76</span> <span style="color: #000000">        }
+</span><span style="color: #008080">77</span>         <span style="color: #0000ff">switch</span><span style="color: #000000"> (getVertParam()) {
+</span><span style="color: #008080">78</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> ALIGN_ABOVE:
+</span><span style="color: #008080">79</span>                 yoff=-anchHeight; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">80</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> ALIGN_BOTTOM:
+</span><span style="color: #008080">81</span>                 yoff=-winHeight; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">82</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> TO_ABOVE:
+</span><span style="color: #008080">83</span>                 yoff=-anchHeight-winHeight; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">84</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> TO_BOTTOM:
+</span><span style="color: #008080">85</span>                 yoff=0; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">86</span>             <span style="color: #0000ff">case</span><span style="color: #000000"> CENTER_VERT:
+</span><span style="color: #008080">87</span>                 yoff=(-winHeight-anchHeight)/2; <span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">88</span>             <span style="color: #0000ff">default</span>:<span style="color: #0000ff">break</span><span style="color: #000000">;
+</span><span style="color: #008080">89</span> <span style="color: #000000">        }
+</span><span style="color: #008080">90</span>         <span style="color: #0000ff">return</span> <span style="color: #0000ff">new</span> <span style="color: #0000ff">int</span><span style="color: #000000">[]{ xoff, yoff };
+</span><span style="color: #008080">91</span> <span style="color: #000000">    }
+</span><span style="color: #008080">92</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p> 这里的主要方法就是“getOffset”，它会根据水平和垂直方向的gravity决定PopupWindow相对锚点的位置。<br>
+<br>
+使用“LayoutGravity”时，可以通过“setHoriGravity”和“setVertGravity”方法设置水平和垂直方向的gravity，或者新建一个“LayoutGravity”对象。<br>
+<br>
+下面是一个demo：</p>
+<p><img src="./Android PopupWindow使用方法小结._files/830999-20170617101059290-931365047.gif" alt=""></p>
+<p>&nbsp;</p>
+<h2>使用setAnimationStyle方法添加动画</h2>
+<p>
+上面我们提到了为PopupWindow设置背景和注册事件监听器，现在我们再来为PopupWindow添加动画。<br>
+<br>
+这里的动画是指PopupWindow出现和消失时的动画。默认是直接弹出和消失，这样难免让用户有一种突兀的感觉；如果PopupWindow能够“滑入”屏幕和“滑出”屏幕（或者其他方式），用户体验会更好。<br>
+<br>
+为PopupWindow添加动画可以调用`setAnimationStyle`方法，该方法只有一个参数，就是指定动画的样式，因此我们需要定义动画资源和样式资源。<br>
+<br>
+下面是一个“滑入滑出”动画：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000"> res/anim/translate_in.xml </span><span style="color: #008000">--&gt;</span>
+<span style="color: #008080"> 2</span> <span style="color: #0000ff">&lt;?</span><span style="color: #ff00ff">xml version="1.0" encoding="utf-8"</span><span style="color: #0000ff">?&gt;</span>
+<span style="color: #008080"> 3</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">set </span><span style="color: #ff0000">xmlns:android</span><span style="color: #0000ff">="http://schemas.android.com/apk/res/android"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080"> 4</span>     <span style="color: #0000ff">&lt;</span><span style="color: #800000">translate
+</span><span style="color: #008080"> 5</span>         <span style="color: #ff0000">android:fromXDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 6</span> <span style="color: #ff0000">        android:toXDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 7</span> <span style="color: #ff0000">        android:fromYDelta</span><span style="color: #0000ff">="100%"</span>
+<span style="color: #008080"> 8</span> <span style="color: #ff0000">        android:toYDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 9</span> <span style="color: #ff0000">        android:duration</span><span style="color: #0000ff">="200"</span> <span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">10</span>     <span style="color: #0000ff">&lt;/</span><span style="color: #800000">translate</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">11</span> <span style="color: #0000ff">&lt;/</span><span style="color: #800000">set</span><span style="color: #0000ff">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000"> res/anim/translate_out.xml </span><span style="color: #008000">--&gt;</span>
+<span style="color: #008080"> 2</span> <span style="color: #0000ff">&lt;?</span><span style="color: #ff00ff">xml version="1.0" encoding="utf-8"</span><span style="color: #0000ff">?&gt;</span>
+<span style="color: #008080"> 3</span> <span style="color: #0000ff">&lt;</span><span style="color: #800000">set </span><span style="color: #ff0000">xmlns:android</span><span style="color: #0000ff">="http://schemas.android.com/apk/res/android"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080"> 4</span>     <span style="color: #0000ff">&lt;</span><span style="color: #800000">translate
+</span><span style="color: #008080"> 5</span>         <span style="color: #ff0000">android:fromXDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 6</span> <span style="color: #ff0000">        android:toXDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 7</span> <span style="color: #ff0000">        android:fromYDelta</span><span style="color: #0000ff">="0"</span>
+<span style="color: #008080"> 8</span> <span style="color: #ff0000">        android:toYDelta</span><span style="color: #0000ff">="100%"</span>
+<span style="color: #008080"> 9</span> <span style="color: #ff0000">        android:duration</span><span style="color: #0000ff">="200"</span> <span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">10</span>     <span style="color: #0000ff">&lt;/</span><span style="color: #800000">translate</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">11</span> <span style="color: #0000ff">&lt;/</span><span style="color: #800000">set</span><span style="color: #0000ff">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>然后定义“滑动”动画样式：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">1</span> <span style="color: #008000">&lt;!--</span><span style="color: #008000"> res/values/styles.xml </span><span style="color: #008000">--&gt;</span>
+<span style="color: #008080">2</span>     <span style="color: #0000ff">&lt;</span><span style="color: #800000">style </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="animTranslate"</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">3</span>         <span style="color: #0000ff">&lt;</span><span style="color: #800000">item </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="android:windowEnterAnimation"</span><span style="color: #0000ff">&gt;</span>@anim/translate_in<span style="color: #0000ff">&lt;/</span><span style="color: #800000">item</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">4</span>         <span style="color: #0000ff">&lt;</span><span style="color: #800000">item </span><span style="color: #ff0000">name</span><span style="color: #0000ff">="android:windowExitAnimation"</span><span style="color: #0000ff">&gt;</span>@anim/translate_out<span style="color: #0000ff">&lt;/</span><span style="color: #800000">item</span><span style="color: #0000ff">&gt;</span>
+<span style="color: #008080">5</span>     <span style="color: #0000ff">&lt;/</span><span style="color: #800000">style</span><span style="color: #0000ff">&gt;</span></pre>
+</div>
+<p>现在我们就可以为PopupWindow添加“滑动”动画了：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080">1</span> window.setAnimationStyle(R.style.animTranslate);</pre>
+</div>
+<p>我们来看下效果：</p>
+<p><img src="./Android PopupWindow使用方法小结._files/830999-20170617101413665-1420824038.gif" alt=""></p>
+<p><br><span style="color: #ff0000; background-color: #ffff99">PS：这里由于动画的时间太短（200ms），另外转GIF的时候可能截取的频率有点低，导致滑动效果不是很明显，建议自己运行demo查看</span><br>
+<br>
+现在PopupWindow的出现/消失已经不是那么突兀了。不过，当弹窗出现后，发现弹窗和背景不是很容易区分，如果此时弹窗的背景能“变暗”就好了。<br>
+<br>
+没问题，我们可以在弹窗出现后让背景变暗，并在弹窗消失后让背景还原：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080"> 1</span>     window.setOnDismissListener(<span style="color: #0000ff">new</span><span style="color: #000000"> PopupWindow.OnDismissListener() {
+</span><span style="color: #008080"> 2</span> <span style="color: #000000">        @Override
+</span><span style="color: #008080"> 3</span>         <span style="color: #0000ff">public</span> <span style="color: #0000ff">void</span><span style="color: #000000"> onDismiss() {
+</span><span style="color: #008080"> 4</span>             WindowManager.LayoutParams lp=<span style="color: #000000">getWindow().getAttributes();
+</span><span style="color: #008080"> 5</span>             lp.alpha=1.0f<span style="color: #000000">;
+</span><span style="color: #008080"> 6</span> <span style="color: #000000">            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+</span><span style="color: #008080"> 7</span> <span style="color: #000000">            getWindow().setAttributes(lp);
+</span><span style="color: #008080"> 8</span> <span style="color: #000000">        }
+</span><span style="color: #008080"> 9</span> <span style="color: #000000">    });
+</span><span style="color: #008080">10</span> 
+<span style="color: #008080">11</span>     window.showAtLocation(activityPopup, Gravity.BOTTOM, 0, 0<span style="color: #000000">);
+</span><span style="color: #008080">12</span>     WindowManager.LayoutParams lp=<span style="color: #000000">getWindow().getAttributes();
+</span><span style="color: #008080">13</span>     lp.alpha=0.3f<span style="color: #000000">;
+</span><span style="color: #008080">14</span> <span style="color: #000000">    getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+</span><span style="color: #008080">15</span>     getWindow().setAttributes(lp);</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./Android PopupWindow使用方法小结._files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>现在再来看下效果：</p>
+<p><img src="./Android PopupWindow使用方法小结._files/830999-20170617101713071-752076794.gif" alt=""><br>
+<br>
+现在PopupWindow就比较明显了。<br>
+<br>
+另外，我们还实现了透明度、缩放和旋转三种动画样式，实现方式和上述大同小异，这里就不再赘述。</p>
+<h2>源代码</h2>
+<p>
+上述所有代码（包括未给出的）都已上传到GitHub：<br>
+<a href="https://github.com/jzyhywxz/PopupWindow">https://github.com/jzyhywxz/PopupWindow</a></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+
+
+
+		</div>
+		
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=358177,cb_entryId=7039503,cb_blogApp=currentBlogApp,cb_blogUserGuid='14d0e4e1-2f81-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/6/17 10:21:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+
+
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+
+<div id="opt_under_post"></div>
+
+
+
+
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
